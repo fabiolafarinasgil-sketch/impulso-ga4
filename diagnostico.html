@@ -1,0 +1,522 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Diagnóstico de Ruta | IMPULSO™</title>
+
+  <!-- Google Analytics 4: instalación directa, sin GTM -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-D06HBKTP31"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-D06HBKTP31');
+  </script>
+
+  <style>
+    :root {
+      --navy: #081b3c;
+      --wine: #970033;
+      --yellow: #ffe88b;
+      --cream: #fbf6f1;
+      --pink: #f8e8ee;
+      --border: #e8e2e0;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--cream);
+      color: var(--navy);
+      line-height: 1.5;
+    }
+
+    header {
+      background: white;
+      padding: 20px 6%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      color: var(--navy);
+      text-decoration: none;
+    }
+
+    .logo sup { font-size: 9px; }
+
+    .back {
+      color: var(--wine);
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    main {
+      max-width: 850px;
+      margin: 55px auto;
+      padding: 0 22px;
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      color: var(--wine);
+      letter-spacing: 2px;
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    h1 {
+      font-size: clamp(35px, 6vw, 57px);
+      line-height: 1.1;
+      letter-spacing: -2px;
+      margin: 15px 0 20px;
+    }
+
+    .intro {
+      font-size: 18px;
+      color: #41506a;
+      max-width: 680px;
+      margin-bottom: 32px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 36px;
+      box-shadow: 0 12px 35px rgba(8,27,60,.07);
+    }
+
+    .progress-text {
+      font-size: 13px;
+      font-weight: bold;
+      color: var(--wine);
+      margin-bottom: 12px;
+    }
+
+    .progress {
+      background: #eee;
+      border-radius: 20px;
+      height: 8px;
+      overflow: hidden;
+      margin-bottom: 32px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--wine);
+      transition: width .3s;
+    }
+
+    h2 {
+      font-size: clamp(23px, 4vw, 30px);
+      line-height: 1.25;
+      margin-bottom: 24px;
+    }
+
+    .options {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .option {
+      border: 2px solid var(--border);
+      background: white;
+      padding: 18px;
+      border-radius: 12px;
+      text-align: left;
+      cursor: pointer;
+      font-size: 16px;
+      color: var(--navy);
+      font-family: inherit;
+    }
+
+    .option:hover {
+      border-color: var(--wine);
+      background: #fff8fa;
+    }
+
+    .option.selected {
+      border-color: var(--wine);
+      background: var(--pink);
+      font-weight: bold;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 40px;
+      padding: 16px 28px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .primary {
+      background: var(--yellow);
+      color: var(--navy);
+    }
+
+    .secondary {
+      background: #edf0f5;
+      color: var(--navy);
+    }
+
+    .btn:disabled {
+      opacity: .4;
+      cursor: not-allowed;
+    }
+
+    .result {
+      display: none;
+    }
+
+    .result-label {
+      color: var(--wine);
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 13px;
+    }
+
+    .result-box {
+      background: var(--cream);
+      border-left: 5px solid var(--wine);
+      padding: 22px;
+      border-radius: 8px;
+      margin: 24px 0;
+    }
+
+    .result-box p { margin-bottom: 0; }
+
+    footer {
+      text-align: center;
+      background: var(--navy);
+      color: white;
+      padding: 28px 15px;
+      margin-top: 70px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+      header { padding: 16px 5%; }
+      .logo { font-size: 24px; }
+      .back { font-size: 12px; }
+      main { margin-top: 35px; }
+      .card { padding: 23px; }
+      .btn { width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <a class="logo" href="index.html">IMPULSO<sup>™</sup></a>
+  <a class="back" href="index.html">← Volver al inicio</a>
+</header>
+
+<main>
+  <div class="eyebrow">IMPULSO™ · Diagnóstico de Ruta</div>
+
+  <h1>Descubre qué puedes monetizar con lo que ya sabes.</h1>
+
+  <p class="intro">
+    No necesitas dejar tu empleo para explorar una nueva fuente
+    de ingresos. Responde siete preguntas y descubre una ruta
+    digital que podrías desarrollar según tu experiencia,
+    intereses y tiempo disponible.
+  </p>
+
+  <section class="card" id="quiz" aria-label="Diagnóstico">
+    <div class="progress-text" id="progressText">
+      Pregunta 1 de 7
+    </div>
+
+    <div class="progress">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <h2 id="question"></h2>
+    <div class="options" id="options"></div>
+
+    <div class="actions">
+      <button class="btn secondary" id="previous" type="button">
+        ← Anterior
+      </button>
+      <button class="btn primary" id="next" type="button" disabled>
+        Siguiente →
+      </button>
+    </div>
+  </section>
+
+  <section class="card result" id="result" aria-live="polite">
+    <div class="result-label">Tu resultado IMPULSO™</div>
+    <h2 id="resultTitle"></h2>
+    <p id="resultDescription"></p>
+
+    <div class="result-box">
+      <strong>Tu primer paso recomendado</strong>
+      <p id="resultAction"></p>
+    </div>
+
+    <p>
+      Este resultado es una orientación inicial basada en
+      tus respuestas. Antes de invertir en una idea,
+      es importante validar si existe demanda real.
+    </p>
+
+    <button class="btn primary" id="restart" type="button">
+      Repetir diagnóstico ↻
+    </button>
+  </section>
+</main>
+
+<footer>
+  IMPULSO™ · Diagnóstico de Ruta · Implementación académica GA4 · 2026
+</footer>
+
+<script>
+  const questions = [
+    {
+      text: "¿En qué área tienes más experiencia?",
+      options: [
+        ["Ventas, atención al cliente o negociación", "servicios"],
+        ["Organización, administración o procesos", "recursos"],
+        ["Comunicación, diseño o creación de contenido", "productos"]
+      ]
+    },
+    {
+      text: "¿Qué suelen pedirte que hagas bien?",
+      options: [
+        ["Resolver problemas y asesorar", "servicios"],
+        ["Organizar información y simplificar tareas", "recursos"],
+        ["Crear materiales e ideas originales", "productos"]
+      ]
+    },
+    {
+      text: "¿Cuánto tiempo podrías dedicar semanalmente?",
+      options: [
+        ["Entre 2 y 4 horas", "productos"],
+        ["Entre 5 y 7 horas", "recursos"],
+        ["Más de 7 horas", "servicios"]
+      ]
+    },
+    {
+      text: "¿Cómo preferirías trabajar inicialmente?",
+      options: [
+        ["Ayudando directamente a clientes", "servicios"],
+        ["Creando recursos reutilizables", "recursos"],
+        ["Diseñando productos para vender online", "productos"]
+      ]
+    },
+    {
+      text: "¿Qué actividad disfrutarías más?",
+      options: [
+        ["Asesorar y encontrar soluciones", "servicios"],
+        ["Diseñar guías, sistemas o plantillas", "recursos"],
+        ["Crear ilustraciones o contenidos digitales", "productos"]
+      ]
+    },
+    {
+      text: "¿Cuál sería tu principal prioridad?",
+      options: [
+        ["Conseguir mis primeros clientes", "servicios"],
+        ["Convertir mi conocimiento en una oferta", "recursos"],
+        ["Crear un catálogo de productos digitales", "productos"]
+      ]
+    },
+    {
+      text: "¿Qué te gustaría tener listo en 30 días?",
+      options: [
+        ["Una propuesta de servicio para ofrecer", "servicios"],
+        ["Una plantilla o guía útil para vender", "recursos"],
+        ["Mi primer producto en una tienda digital", "productos"]
+      ]
+    }
+  ];
+
+  const routes = {
+    servicios: {
+      title: "Ruta 1 · Servicios digitales especializados",
+      description:
+        "Tu experiencia podría convertirse en un servicio " +
+        "concreto para profesionales o pequeños negocios. " +
+        "Puedes explorar consultoría, soporte comercial, " +
+        "gestión de clientes o acompañamiento especializado.",
+      action:
+        "Identifica un problema específico que sepas resolver " +
+        "y redacta una propuesta de servicio en dos frases."
+    },
+    recursos: {
+      title: "Ruta 2 · Recursos y herramientas digitales",
+      description:
+        "Tus habilidades podrían convertirse en plantillas, " +
+        "guías, procedimientos o herramientas que ayuden a " +
+        "otras personas a trabajar mejor.",
+      action:
+        "Elige una tarea que domines y conviértela en una " +
+        "plantilla sencilla. Muéstrala a tres posibles clientes."
+    },
+    productos: {
+      title: "Ruta 3 · Productos digitales creativos",
+      description:
+        "Podrías explorar productos descargables como " +
+        "imprimibles, diseños, planners o materiales " +
+        "para comercializar en una tienda digital.",
+      action:
+        "Selecciona un público específico, identifica una " +
+        "necesidad y crea un primer producto de prueba."
+    }
+  };
+
+  let current = 0;
+  let answers = Array(questions.length).fill(null);
+  let started = false;
+
+  const $ = id => document.getElementById(id);
+
+  function showQuestion() {
+    const q = questions[current];
+
+    $("progressText").textContent =
+      "Pregunta " + (current + 1) + " de " + questions.length;
+
+    $("progressFill").style.width =
+      ((current + 1) / questions.length * 100) + "%";
+
+    $("question").textContent = q.text;
+    $("options").innerHTML = "";
+
+    q.options.forEach((option, index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "option";
+      button.textContent = option[0];
+
+      if (answers[current] === index) {
+        button.classList.add("selected");
+      }
+
+      button.addEventListener("click", () => {
+        answers[current] = index;
+
+        // Se activa una sola vez, al responder la primera pregunta.
+        if (!started && current === 0) {
+          started = true;
+          gtag("event", "diagnostico_iniciado", {
+            tipo_diagnostico: "ruta_digital"
+          });
+        }
+
+        showQuestion();
+      });
+
+      $("options").appendChild(button);
+    });
+
+    $("previous").style.display =
+      current === 0 ? "none" : "inline-block";
+
+    $("next").disabled = answers[current] === null;
+
+    $("next").textContent =
+      current === questions.length - 1
+        ? "Ver mi resultado →"
+        : "Siguiente →";
+  }
+
+  function finishDiagnostic() {
+    const counts = {
+      servicios: 0,
+      recursos: 0,
+      productos: 0
+    };
+
+    questions.forEach((question, index) => {
+      const answerIndex = answers[index];
+      const category = question.options[answerIndex][1];
+      counts[category]++;
+    });
+
+    // Desempate fijo para resultados reproducibles.
+    const order = ["servicios", "recursos", "productos"];
+
+    const route = order.reduce((best, category) =>
+      counts[category] > counts[best] ? category : best
+    );
+
+    const selected = routes[route];
+
+    $("quiz").style.display = "none";
+    $("result").style.display = "block";
+
+    $("resultTitle").textContent = selected.title;
+    $("resultDescription").textContent = selected.description;
+    $("resultAction").textContent = selected.action;
+
+    // Eventos separados para analizar finalización y ruta.
+    gtag("event", "diagnostico_completado", {
+      tipo_diagnostico: "ruta_digital"
+    });
+
+    gtag("event", "ruta_seleccionada", {
+      ruta: route
+    });
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  $("next").addEventListener("click", () => {
+    if (answers[current] === null) return;
+
+    if (current < questions.length - 1) {
+      current++;
+      showQuestion();
+    } else {
+      finishDiagnostic();
+    }
+  });
+
+  $("previous").addEventListener("click", () => {
+    if (current > 0) {
+      current--;
+      showQuestion();
+    }
+  });
+
+  $("restart").addEventListener("click", () => {
+    current = 0;
+    answers = Array(questions.length).fill(null);
+    started = false;
+
+    $("result").style.display = "none";
+    $("quiz").style.display = "block";
+
+    showQuestion();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  showQuestion();
+</script>
+
+</body>
+</html>
